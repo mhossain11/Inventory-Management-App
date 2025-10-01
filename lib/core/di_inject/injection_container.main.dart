@@ -8,6 +8,7 @@ import '../../features/auth/data/repos/auth_repo_impl.dart';
 import '../../features/auth/domain/repos/auth_repo.dart';
 import '../../features/auth/presentation/controller/auth_controllere.dart';
 import '../app/cache/cache_helper.dart';
+import '../app/cache/prefs_helper.dart';
 
 final sl = GetIt.instance;
 
@@ -21,8 +22,9 @@ Future<void> init() async {
 Future<void> _cacheInit() async {
   final prefs = await SharedPreferences.getInstance();
   sl
-    ..registerLazySingleton(() => CacheHelper(sl()))
-    ..registerLazySingleton<SharedPreferences>(() => prefs);
+    ..registerLazySingleton<SharedPreferences>(() => prefs)
+    ..registerLazySingleton(() => PrefsHelper(sl()));
+
 }
 
 Future<void> _userAuthInit() async {

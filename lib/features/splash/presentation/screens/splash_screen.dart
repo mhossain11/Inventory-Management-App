@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:inventoryapp/core/app/cache/cache_helper.dart';
+import 'package:inventoryapp/core/app/cache/prefs_helper.dart';
+import 'package:inventoryapp/core/app/cache/prefs_key.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/di_inject/injection_container.main.dart';
 import '../../../../core/res/media.dart';
 import '../../../../core/route/app_route.dart';
 
@@ -31,10 +36,21 @@ class _SplashScreenState extends State<SplashScreen> {
     // auto navigation
     Future.delayed(const Duration(seconds: 5), () {
       if (mounted) {
-       // debugPrint("👉 Splash finished, navigating to Dashboard...");
-        Get.offAndToNamed(AppRoutes.dashboardScreen);
+        //token check
+        checkToken();
       }
     });
+  }
+
+  void checkToken() async {
+    String? accessToken = await sl<PrefsHelper>().getString(PrefsKey.userLoginToken);
+
+    if (accessToken == null || accessToken.isEmpty) {
+      Get.toNamed(AppRoutes.loginScreen);
+    } else {
+     // Get.offAndToNamed(AppRoutes.dashboardScreen);
+      Get.offAndToNamed(AppRoutes.storeCreateScreen);
+    }
   }
 
   @override

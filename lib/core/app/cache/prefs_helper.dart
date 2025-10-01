@@ -1,0 +1,25 @@
+
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+class PrefsHelper{
+  final SharedPreferences? prefs;
+  PrefsHelper(this.prefs);
+
+  Future setString(String key, String value) async{
+    await prefs?.setString(key, value);
+  }
+
+  Future getString(String key) async{
+    return prefs?.getString(key);
+  }
+
+  Future remove(String key)async{
+    await prefs?.remove(key);
+  }
+
+  Future clean()async{
+    await prefs?.clear();
+  }
+
+}

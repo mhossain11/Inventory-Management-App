@@ -3,9 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import'package:http/http.dart'as http;
+import 'package:inventoryapp/core/app/cache/prefs_helper.dart';
 import 'package:inventoryapp/core/utils/constants/network_constants.dart';
 
 import '../../../../core/app/cache/cache_helper.dart';
+import '../../../../core/app/cache/prefs_key.dart';
 import '../../../../core/di_inject/injection_container.main.dart';
 import '../../../../core/extensions/error_reponse.dart';
 import '../../../../core/extensions/exceptions.dart';
@@ -51,7 +53,7 @@ class AuthRemoteDataSrcImp implements AuthRemoteDataSrc{
            statusCode: response.statusCode);
      }
      final tokenValue = payload['access'];
-     await sl<CacheHelper>().cacheAccessToken(tokenValue);
+     await sl<PrefsHelper>().setString(PrefsKey.userLoginToken, tokenValue);
    }on ServerException {
      rethrow;
    }catch(e,s){
