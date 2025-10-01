@@ -30,3 +30,6 @@ class CacheFailure extends Failure {
 
   CacheFailure.fromException(CacheException e) : this(message: e.message);
 }
+
+
+

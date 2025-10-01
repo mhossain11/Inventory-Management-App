@@ -47,10 +47,18 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (accessToken == null || accessToken.isEmpty) {
       Get.toNamed(AppRoutes.loginScreen);
-    } else {
-     // Get.offAndToNamed(AppRoutes.dashboardScreen);
-      Get.offAndToNamed(AppRoutes.storeCreateScreen);
     }
+      String? length = await sl<PrefsHelper>().getString(PrefsKey.userStoreListLength);
+
+      if(length == null || length.isEmpty){
+        Get.offAndToNamed(AppRoutes.storeCreateScreen);
+        return;
+      }else{
+         Get.offAndToNamed(AppRoutes.dashboardScreen);
+      }
+
+
+
   }
 
   @override

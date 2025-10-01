@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/enums/typedefs.dart';
-import '../../../../core/extensions/exceptions.dart';
-import '../../../../core/extensions/failures.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failures.dart';
 import '../../domain/repos/auth_repo.dart';
 import '../datasources/auth_remote_datasource.dart';
 

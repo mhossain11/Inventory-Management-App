@@ -2,6 +2,7 @@
 
 
 import 'package:get/get.dart';
+import 'package:inventoryapp/features/home/presentation/controller/home_controller.dart';
 
 import 'core/di_inject/injection_container.main.dart';
 import 'features/auth/presentation/controller/auth_controllere.dart';
@@ -12,6 +13,7 @@ class ControllerBinder extends Bindings{
   void dependencies() {
     Get.put(AuthController(sl()));
     Get.put(DashboardController());
+    Get.put(HomeController(sl()));
 
 
 

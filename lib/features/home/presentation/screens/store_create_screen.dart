@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:inventoryapp/share/custom_textField.dart';
 
+import '../widgets/image_show.dart';
+
 class StoreCreateScreen extends StatefulWidget {
   const StoreCreateScreen({super.key});
-  static String path ='/userStoreCreate';
+
+  static String path = '/userStoreCreate';
 
   @override
   State<StoreCreateScreen> createState() => _StoreCreateScreenState();
@@ -26,10 +29,7 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Store'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Create Store'), centerTitle: true),
       body: Column(
         children: [
           Padding(
@@ -37,7 +37,8 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
             child: CustomTextField(
               controller: nameController,
               label: 'Name',
-            hintText: 'Name',),
+              hintText: 'Name',
+            ),
           ),
           Gap(10),
           Padding(
@@ -45,8 +46,8 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
             child: CustomTextField(
               controller: descriptionController,
               label: 'Description',
-            hintText: 'Description',
-            maxLines: 3,
+              hintText: 'Description',
+              maxLines: 3,
             ),
           ),
           Gap(10),
@@ -55,15 +56,23 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
             child: CustomTextField(
               controller: addressController,
               label: 'Address',
-            hintText: 'Address',),
+              hintText: 'Address',
+            ),
           ),
-          
-          ElevatedButton(onPressed: (){}, child: Text('Confirm'))
+          Gap(10),
+          ImageShow(),
+          Gap(30),
+          SizedBox(
+            width: 250,
+            child: ElevatedButton(
+              style:ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue
+              ),
+                onPressed: () {},
+                child: Text('Confirm',style: TextStyle(color: Colors.white),)),
+          ),
         ],
-      )
+      ),
     );
   }
-
-
-
 }
