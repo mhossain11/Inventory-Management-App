@@ -49,10 +49,9 @@ class _SplashScreenState extends State<SplashScreen> {
       Get.toNamed(AppRoutes.loginScreen);
     }
       String? length = await sl<PrefsHelper>().getString(PrefsKey.userStoreListLength);
-
+        debugPrint('Length:${length.toString()}');
       if(length == null || length.isEmpty){
         Get.offAndToNamed(AppRoutes.storeCreateScreen);
-        return;
       }else{
          Get.offAndToNamed(AppRoutes.dashboardScreen);
       }

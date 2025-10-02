@@ -1,6 +1,7 @@
 
 
 import '../../../../core/enums/typedefs.dart';
+import '../../../home/domain/models/store_model.dart';
 
 abstract class AuthRepo{
 /*
@@ -18,5 +19,7 @@ abstract class AuthRepo{
     required String email,
     required String password,
 });
+
+  ResultFuture<List<StoreModel>> getStoreData();
 
 }

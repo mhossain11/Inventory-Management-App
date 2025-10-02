@@ -1,5 +1,7 @@
 
 
+import 'package:flutter/cupertino.dart';
+import 'package:inventoryapp/core/app/cache/prefs_key.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefsHelper{
@@ -20,6 +22,18 @@ class PrefsHelper{
 
   Future clean()async{
     await prefs?.clear();
+  }
+
+  String? getToken() {
+    final accessToken = prefs?.getString(PrefsKey.userLoginToken);
+
+    if (accessToken != null ) {
+      print(accessToken);
+      debugPrint('getToken: access Token exists');
+    } else {
+      debugPrint('getToken: access does not exist');
+    }
+    return accessToken;
   }
 
 }

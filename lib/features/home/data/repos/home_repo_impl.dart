@@ -12,18 +12,6 @@ class HomeRepoImpl implements HomeRepo{
   HomeRepoImpl(this.homeRemoteDataSrc);
 
   HomeRemoteDataSrc homeRemoteDataSrc;
-  @override
-  ResultFuture<List<StoreModel>> getStoreData() async{
 
-    try{
-      final result = await homeRemoteDataSrc.getStoreData();
-      return Right(result);
-
-    }on ServerException catch(e){
-      return Left(ServerFailure.fromException(e));
-
-    }
-
-  }
 
 }

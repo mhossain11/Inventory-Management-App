@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/enums/typedefs.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../../home/domain/models/store_model.dart';
 import '../../domain/repos/auth_repo.dart';
 import '../datasources/auth_remote_datasource.dart';
 
@@ -53,5 +54,17 @@ class AuthRepoImpl implements AuthRepo{
   }*/
 
 
+  @override
+  ResultFuture<List<StoreModel>> getStoreData() async{
 
+    try{
+      final result = await _remoteDataSrc.getStoreData();
+      return Right(result);
+
+    }on ServerException catch(e){
+      return Left(ServerFailure.fromException(e));
+
+    }
+
+  }
 }

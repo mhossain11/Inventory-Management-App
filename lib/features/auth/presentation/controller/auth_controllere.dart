@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../../../../core/route/app_route.dart';
 import '../../../dashboard/presentation/screens/dashboard_screen.dart';
+import '../../../home/domain/models/store_model.dart';
 import '../../domain/repos/auth_repo.dart';
 
 
@@ -10,8 +11,15 @@ final AuthRepo _authRepo;
 
 AuthController(this._authRepo);
 
+@override
+  void onInit() {
+    super.onInit();
+    getStoreData();
+  }
+
 var isLoading = false.obs;
 var errorMessage = RxnString();
+var storeList = <StoreModel>[].obs;
 
 Future<void>login({
   required String email,
@@ -61,4 +69,27 @@ Future<void>login({
     Get.offAll(() => const LoginScreen());
   });
 }*/
+
+
+
+  Future<void> getStoreData() async{
+    try{
+      isLoading.value = true;
+      final result = await _authRepo.getStoreData();
+      result.fold(
+              (failure) {
+            errorMessage.value = failure.message;
+          },
+              (data) {
+            storeList.addAll(data);
+          }
+      );
+      isLoading.value = false;
+    }catch(e){
+      isLoading.value = false;
+      Get.snackbar('Error', e.toString());
+    }finally{
+      isLoading.value = false;
+    }
+  }
 }
