@@ -87,7 +87,7 @@ class AuthRemoteDataSrcImp implements AuthRemoteDataSrc{
       final uri = Uri.parse('${NetworkConstants.baseUrl}${NetworkConstants.storeList}');
       final response = await client.get(
         uri,
-        headers: sl<PrefsHelper>().getToken()?.toHeaders,
+        headers: sl<PrefsHelper>().getToken()?.toHeader,
       );
       final data = jsonDecode(response.body);
       print('statusCode:${response.statusCode}');

@@ -25,15 +25,8 @@ class PrefsHelper{
   }
 
   String? getToken() {
-    final accessToken = prefs?.getString(PrefsKey.userLoginToken);
+    return prefs?.getString(PrefsKey.userLoginToken);
 
-    if (accessToken != null ) {
-      print(accessToken);
-      debugPrint('getToken: access Token exists');
-    } else {
-      debugPrint('getToken: access does not exist');
-    }
-    return accessToken;
   }
 
 }

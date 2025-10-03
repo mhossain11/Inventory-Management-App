@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageShow extends StatefulWidget {
-  const ImageShow({super.key});
+  const ImageShow({super.key, required this.onImageSelected});
+  final ValueChanged<File?> onImageSelected;
 
   @override
   State<ImageShow> createState() => _ImageShowState();
@@ -41,6 +42,7 @@ class _ImageShowState extends State<ImageShow> {
                     setState(() {
                       selectedImage = null;
                     });
+                    widget.onImageSelected(selectedImage);
                   },
                   icon: const Icon(Icons.clear),
                   color: Colors.black54,

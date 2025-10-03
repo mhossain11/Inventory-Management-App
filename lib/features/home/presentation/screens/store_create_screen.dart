@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:inventoryapp/features/home/presentation/controller/home_controller.dart';
 import 'package:inventoryapp/share/custom_textField.dart';
 
 import '../widgets/image_show.dart';
@@ -17,6 +22,8 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  HomeController homeController = Get.find<HomeController>();
+  File? selectedImageFile;
 
   @override
   void dispose() {
@@ -60,7 +67,10 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
             ),
           ),
           Gap(10),
-          ImageShow(),
+          ImageShow(
+            onImageSelected: (File? value) {
+              selectedImageFile = value;
+            },),
           Gap(30),
           SizedBox(
             width: 250,
@@ -68,7 +78,13 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
               style:ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue
               ),
-                onPressed: () {},
+                onPressed: () {
+                homeController.storeCreate(
+                    name: nameController.text,
+                    description: descriptionController.text,
+                    address: addressController.text,
+                    image: selectedImageFile!.path.toString());
+                },
                 child: Text('Confirm',style: TextStyle(color: Colors.white),)),
           ),
         ],

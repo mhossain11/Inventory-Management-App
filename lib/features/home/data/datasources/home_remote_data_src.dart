@@ -14,7 +14,13 @@ import '../../../../core/error/error_response.dart';
 import '../../../../core/error/exceptions.dart';
 
 abstract class HomeRemoteDataSrc{
-
+  HomeRemoteDataSrc();
+  Future<void>storeCreate({
+    required String name,
+    required String description,
+    required String address,
+    required String image,
+});
 
 }
 
@@ -23,6 +29,44 @@ abstract class HomeRemoteDataSrc{
 class HomeRemoteDataSrcImp implements HomeRemoteDataSrc{
   HomeRemoteDataSrcImp(this.client);
   final http.Client client;
+
+  @override
+  Future<void> storeCreate({
+    required String name,
+    required String description,
+    required String address,
+    required String image}) async{
+
+
+    try{
+      var uri = Uri.parse('${NetworkConstants.baseUrl}${NetworkConstants.storeCreate}');
+      var response =await client.post(uri,
+          body: jsonEncode({
+            'name':name,
+            'description':description,
+            'address':address,
+            'image':image,
+          }),
+          headers: sl<PrefsHelper>().getToken()?.toBearerHeader,
+          );
+      final data = jsonDecode(response.body) as DataMap;
+
+      if(response.statusCode != 200){
+        final errorResponse = ErrorResponse.fromMap(data);
+        throw ServerException(
+            message: errorResponse.errorMessage,
+            statusCode: response.statusCode);
+      }
+    }on ServerException {
+      rethrow;
+    }catch(e,s){
+      debugPrint(e.toString());
+      debugPrintStack(stackTrace: s);
+      throw ServerException(message: e.toString(), statusCode: 500);
+
+    }
+  }
+
 
 
 }

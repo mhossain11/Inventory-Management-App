@@ -13,5 +13,26 @@ class HomeRepoImpl implements HomeRepo{
 
   HomeRemoteDataSrc homeRemoteDataSrc;
 
+  @override
+  ResultFuture<void> storeCreate({
+    required String name,
+    required String description,
+    required String address,
+    required String image}) async{
+
+    try{
+      await homeRemoteDataSrc.storeCreate(
+        name: name,
+        description: description,
+        address: address,
+        image: image,
+      );
+      return const Right(null);
+    }on ServerException catch(e){
+      return Left(ServerFailure.fromException(e));
+    }
+
+  }
+
 
 }

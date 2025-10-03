@@ -5,7 +5,7 @@ import '../di_inject/injection_container.main.dart';
 
 extension StringExt on String{
 
-  Map<String,String> get toHeaders {
+  Map<String,String> get toBearerHeader {
 
     return{
       'Authorization': 'Bearer $this',
