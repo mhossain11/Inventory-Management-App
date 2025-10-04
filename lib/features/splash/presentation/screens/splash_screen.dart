@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:inventoryapp/core/app/cache/cache_helper.dart';
-import 'package:inventoryapp/core/app/cache/prefs_helper.dart';
 import 'package:inventoryapp/core/app/cache/prefs_key.dart';
+import 'package:inventoryapp/core/extensions/string_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/di_inject/injection_container.main.dart';
 import '../../../../core/res/media.dart';
@@ -43,18 +43,20 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkToken() async {
-    String? accessToken = await sl<PrefsHelper>().getString(PrefsKey.userLoginToken);
-
+    String? accessToken = await sl<CacheHelper>().getToken();
+   // print('Token2: ${await sl<CacheHelper>().getString(PrefsKey.userLoginToken)}');
     if (accessToken == null || accessToken.isEmpty) {
       Get.toNamed(AppRoutes.loginScreen);
-    }
-      String? length = await sl<PrefsHelper>().getString(PrefsKey.userStoreListLength);
-        debugPrint('Length:${length.toString()}');
+    }else{
+      String? length = await sl<CacheHelper>().getString(PrefsKey.userStoreListLength);
+      debugPrint('Length:${length.toString()}');
       if(length == null || length.isEmpty){
         Get.offAndToNamed(AppRoutes.storeCreateScreen);
       }else{
-         Get.offAndToNamed(AppRoutes.dashboardScreen);
+        Get.offAndToNamed(AppRoutes.dashboardScreen);
       }
+    }
+
 
 
 
@@ -62,7 +64,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.white,

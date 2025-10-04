@@ -1,6 +1,4 @@
-import 'package:inventoryapp/core/app/cache/prefs_helper.dart';
-import 'package:inventoryapp/core/app/cache/prefs_key.dart';
-
+import 'package:inventoryapp/core/app/cache/cache_helper.dart';
 import '../di_inject/injection_container.main.dart';
 
 extension StringExt on String{
@@ -8,21 +6,23 @@ extension StringExt on String{
   Map<String,String> get toBearerHeader {
 
     return{
-      'Authorization': 'Bearer $this',
-      'Content-Type': 'application/json; charset=UTF-8',
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $this",
     };
   }
 
 
 
   Map<String, String> get toHeader {
-    String? token = sl<PrefsHelper>().getToken();
+    String? token = sl<CacheHelper>().getToken();
 
     
      if (token != null && token.isNotEmpty) {
       return {
-        "Authorization": "Bearer $token",
+        "Accept": "application/json",
         "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
       };
     }else{
        return {"Content-Type": "application/json"};

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:inventoryapp/features/auth/presentation/controller/auth_controllere.dart';
 
 import '../widgets/address_bottom_sheet.dart';
 
@@ -11,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  AuthController authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
             setState(() {
 
               print('CLICK BUTTON');
-              ShippingAddAddressBottomSheet.show(context);
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => ShippingAddAddressBottomSheet(
+                    businesses: authController.storeList),
+              );
+
             });
           },
           child: Card(

@@ -7,7 +7,7 @@ import 'package:inventoryapp/core/extensions/string_extension.dart';
 import 'package:inventoryapp/core/utils/constants/network_constants.dart';
 import 'package:inventoryapp/features/home/domain/models/store_model.dart';
 
-import '../../../../core/app/cache/prefs_helper.dart';
+import '../../../../core/app/cache/cache_helper.dart';
 import '../../../../core/app/cache/prefs_key.dart';
 import '../../../../core/di_inject/injection_container.main.dart';
 import '../../../../core/error/error_response.dart';
@@ -47,7 +47,7 @@ class HomeRemoteDataSrcImp implements HomeRemoteDataSrc{
             'address':address,
             'image':image,
           }),
-          headers: sl<PrefsHelper>().getToken()?.toBearerHeader,
+          headers: sl<CacheHelper>().getToken()?.toBearerHeader,
           );
       final data = jsonDecode(response.body) as DataMap;
 

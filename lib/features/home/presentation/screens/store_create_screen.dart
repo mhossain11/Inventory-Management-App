@@ -66,11 +66,11 @@ class _StoreCreateScreenState extends State<StoreCreateScreen> {
               hintText: 'Address',
             ),
           ),
-          Gap(10),
+          Gap(10),/*
           ImageShow(
             onImageSelected: (File? value) {
               selectedImageFile = value;
-            },),
+            },),*/
           Gap(30),
           SizedBox(
             width: 250,

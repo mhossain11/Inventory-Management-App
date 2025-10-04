@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import'package:http/http.dart'as http;
 import 'package:http/http.dart' as client;
-import 'package:inventoryapp/core/app/cache/prefs_helper.dart';
 import 'package:inventoryapp/core/extensions/string_extension.dart';
 import 'package:inventoryapp/core/utils/constants/network_constants.dart';
 
@@ -58,8 +57,11 @@ class AuthRemoteDataSrcImp implements AuthRemoteDataSrc{
            message: errorResponse.errorMessage,
            statusCode: response.statusCode);
      }
+
+     await sl<CacheHelper>().cacheAccessToken(payload['access']);
+
      final tokenValue = payload['access'];
-     await sl<PrefsHelper>().setString(PrefsKey.userLoginToken, tokenValue);
+     //debugPrint("SAVED TOKEN: $tokenValue");
    }on ServerException {
      rethrow;
    }catch(e,s){
@@ -80,37 +82,51 @@ class AuthRemoteDataSrcImp implements AuthRemoteDataSrc{
 
 
   @override
-  Future<List<StoreModel>> getStoreData() async{
-
-
-    try{
-      final uri = Uri.parse('${NetworkConstants.baseUrl}${NetworkConstants.storeList}');
-      final response = await client.get(
-        uri,
-        headers: sl<PrefsHelper>().getToken()?.toHeader,
+  Future<List<StoreModel>> getStoreData() async {
+    try {
+      final uri = Uri.parse(
+        '${NetworkConstants.baseUrl}${NetworkConstants.storeList}',
       );
+
+      final response = await _client.get(
+        uri,
+        headers: sl<CacheHelper>().getAccessAllToken()?.toHeader,
+      );
+
+
+
       final data = jsonDecode(response.body);
-      print('statusCode:${response.statusCode}');
-      if(response.statusCode != 200){
-        final error = ErrorResponse.fromMap(data as DataMap);
-        ServerException(
-            message: error.errorMessage,
-            statusCode: response.statusCode);
+
+      if (response.statusCode != 200) {
+        data as DataMap;
+        // error হলে response map আকারে আসবে
+        final error = ErrorResponse.fromMap(data);
+        throw ServerException(
+          message: error.errorMessage,
+          statusCode: response.statusCode,
+        );
       }
-      final storeList =
-      (data as List).map((e) => StoreModel.fromJson(e)).toList();
-      sl<PrefsHelper>().setString(PrefsKey.userStoreListLength,storeList.length.toString());
+      print('statusCode_auth: ${response.statusCode}');
+      // success হলে নিশ্চিত list আসবে
+      data as List<dynamic>;
+
+      final storeList = data.cast<DataMap>().map((e) => StoreModel.fromJson(e)).toList();
+
+      // লোকালি store length save করছি
+     await sl<CacheHelper>().setString(
+        PrefsKey.userStoreListLength,
+        storeList.length.toString(),);
+
       return storeList;
-
-    }on ServerException {
+    } on ServerException {
       rethrow;
-
-    }catch(e,s){
-      debugPrint(e.toString());
+    } catch (e, s) {
+      debugPrint("Error in getStoreData: $e");
       debugPrintStack(stackTrace: s);
       throw ServerException(message: e.toString(), statusCode: 500);
     }
   }
+
 
 
 }
