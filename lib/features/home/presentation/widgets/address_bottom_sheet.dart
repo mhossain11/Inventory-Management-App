@@ -37,6 +37,18 @@ class ShippingAddAddressBottomSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            //Top drag indicator
+            Center(
+              child: Container(
+                width: 40,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             // --- Header ---
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
